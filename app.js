@@ -5,16 +5,27 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
+const session = require('koa-generic-session')
+const redisStore = require('koa-redis')
+const {
+  REDIS_CONF
+} = require('./config/db')
+const { SESSION_SECRET_KEY } = require('./config/secretKey')
 
 const index = require('./routes/index')
 const users = require('./routes/users')
+const errorViewRouter = require('./routes/view/error')
 
 // error handler
-onerror(app)
+let onerrorConf = {}
+onerrorConf = {
+  redirect: '/error'
+}
+onerror(app, onerrorConf)
 
 // middlewares
 app.use(bodyparser({
-  enableTypes:['json', 'form', 'text']
+  enableTypes: ['json', 'form', 'text']
 }))
 app.use(json())
 app.use(logger())
@@ -32,9 +43,27 @@ app.use(async (ctx, next) => {
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
 
+app.keys = [SESSION_SECRET_KEY]
+app.use(session(
+  //配置cookie
+  {
+    key: 'weibo.sid', // cookie name 默认是 `koa.sid`
+    prefix: 'weibo:sess:', // redis key 的前缀，默认是 `koa:sess:`
+    cookie: {
+      path: '/',
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000
+    },
+    store: redisStore({
+      all: `${REDIS_CONF.host}:${REDIS_CONF.port}`
+    })
+  }
+))
+
 // routes
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
+app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods()) // 404路由要注册在最后面
 
 // error-handling
 app.on('error', (err, ctx) => {
