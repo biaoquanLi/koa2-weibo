@@ -3,7 +3,7 @@
  * @author 双越老师
  */
 
-(function(window, $) {
+(function (window, $) {
     // 方法将暴露到 window.ajax 下
     if (window.ajax != null) {
         console.error('window.ajax 被占用')
@@ -49,7 +49,7 @@
             contentType: false,
             processData: false,
             data: formData,
-            success: function(res) {
+            success: function (res) {
                 if (res.errno !== 0) {
                     // 错误
                     callback(res.message)
@@ -58,7 +58,7 @@
                 // 正确
                 callback(null, res.data)
             },
-            error: function(error) {
+            error: function (error) {
                 // 错误
                 callback(error.message)
             }
@@ -72,8 +72,8 @@
             url,
             contentType: 'application/json;charset=UTF-8',
             data: params ? JSON.stringify(params) : '',
-            success: function(res) {
-                if (res.errno !== 0) {
+            success: function (res) {
+                if (res.code !== 0) {
                     // 错误
                     callback(res.message)
                     return
@@ -81,7 +81,7 @@
                 // 正确
                 callback(null, res.data)
             },
-            error: function(error) {
+            error: function (error) {
                 // 错误
                 callback(error.message)
             }

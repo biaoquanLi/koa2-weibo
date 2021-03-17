@@ -1,30 +1,40 @@
 
+/**
+ * 基础模块
+ */
 class BaseModel {
-    constructor(data,message){
-        if(typeof data === 'string'){
-            this.message = data
-            data = null
-            message = null
-        }
-        if(data){
+    constructor({ code, data, message }) {
+        this.code = code
+        if (data) {
             this.data = data
         }
-        if(message){
+        if (message) {
             this.message = message
         }
     }
 }
 
-class SuccessModel extends BaseModel{
-    constructor(data,message){
-        super(data,message)
-        this.code = 0
+/**
+ * 成功的数据模型
+ */
+class SuccessModel extends BaseModel {
+    constructor(data = {}) {
+        super({
+            code: 0,
+            data
+        })
     }
 }
-class ErrorModel extends BaseModel{
-    constructor(data,message){
-        super(data,message)
-        this.code = -1
+
+/**
+ * 失败的数据模型
+ */
+class ErrorModel extends BaseModel {
+    constructor({ code, message }) {
+        super({
+            code,
+            message
+        })
     }
 }
 
