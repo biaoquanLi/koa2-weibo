@@ -31,12 +31,41 @@ const createUser = async ({ userName, password, gender = 3, nickName }) => {
         password = escape(password)
     }
     let sql = `insert into users (userName,password,gender,nickName) values ('${userName}',${password},${gender},'${nickName}')`
-    console.log(33, sql)
     const res = await exec(sql)
-    console.log(222, sql, res)
     return {
         id: res.insertId
     }
 }
 
-module.exports = { getUserInfo, createUser }
+const updateUser = async (ctx, { nickName, city, picture }) => {
+    const { userName, password } = ctx.session.userInfo.userName
+    if (password) {
+        password = genPassword(password)
+        password = escape(password)
+    }
+    let sql = `update users set nickName='${nickName}',city='${city}',picture='${picture}' where userName='${userName}' and password=${password}`
+    console.log('sql', sql)
+    const res = await exec(sql)
+    return {
+        code: 0,
+        affectedRows: res.affectedRows
+    }
+}
+
+const updatePassword = async (userName, password, newPassword) => {
+    if (password && newPassword) {
+        password = genPassword(password)
+        password = escape(password)
+        newPassword = genPassword(newPassword)
+        newPassword = escape(newPassword)
+    }
+    let sql = `update users set password=${newPassword} where userName='${userName}' and password=${password}`
+    console.log('sql', sql)
+    const res = await exec(sql)
+    return {
+        code: 0,
+        affectedRows: res.affectedRows
+    }
+}
+
+module.exports = { getUserInfo, createUser, updateUser, updatePassword }
