@@ -55,7 +55,6 @@ async function login(ctx, userName, password) {
             message: '登录失败，用户名或密码错误'
         })
     }
-    console.log(111, ctx.session.userInfo, userInfo)
     if (!ctx.session.userInfo) {
         ctx.session.userInfo = userInfo
     }

@@ -6,8 +6,8 @@ const path = require('path')
 
 const BLOG_LIST_TPL = fs.readFileSync(path.join(__dirname, '..', 'views', 'widgets', 'blog-list.ejs')).toString()
 
-function getBlogListStr(blogList = [], user, canReply = false) {
-    return ejs.render(BLOG_LIST_TPL, { blogList, user, canReply })
+function getBlogListStr(blogList = [], canReply = false) {
+    return ejs.render(BLOG_LIST_TPL, { blogList, canReply })
 }
 
 module.exports = {

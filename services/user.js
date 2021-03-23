@@ -44,7 +44,6 @@ const updateUser = async (ctx, { nickName, city, picture }) => {
         password = escape(password)
     }
     let sql = `update users set nickName='${nickName}',city='${city}',picture='${picture}' where userName='${userName}' and password=${password}`
-    console.log('sql', sql)
     const res = await exec(sql)
     return {
         code: 0,
@@ -60,7 +59,6 @@ const updatePassword = async (userName, password, newPassword) => {
         newPassword = escape(newPassword)
     }
     let sql = `update users set password=${newPassword} where userName='${userName}' and password=${password}`
-    console.log('sql', sql)
     const res = await exec(sql)
     return {
         code: 0,

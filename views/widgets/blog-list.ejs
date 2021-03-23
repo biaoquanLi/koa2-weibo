@@ -1,15 +1,15 @@
 <% blogList.forEach(blog=> { %>
     <div class="item-wrapper">
         <img class="user-picture"
-            src="<%= user.picture||'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2694643916,1778468996&fm=11&gp=0.jpg'%>" />
+            src="<%= blog.picture||'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2694643916,1778468996&fm=11&gp=0.jpg'%>" />
         <div class="content clear-fix">
             <% if (blog.image) { %>
                 <a href="<%= blog.image%>" target="_blank">
                     <img class="blog-img" src="<%= blog.image%>" />
                 </a>
                 <% } %>
-                    <a href="/profile/<%= user.userName%>">
-                        <%= user.nickName%>
+                    <a href="/profile/<%= blog.userName%>">
+                        <%= blog.nickName%>
                     </a>:
                     <span>
                         <%- blog.content%>
@@ -23,7 +23,7 @@
             <% if (locals.canReply) { %>
                 <%# 可以回复 %>
                     <a href="#" class="blog-list-reply" data-content="<%= blog.content%>"
-                        data-userName="<%= user.userName%>" data-nickName="<%= user.nickName%>">
+                        data-userName="<%= blog.userName%>" data-nickName="<%= blog.nickName%>">
                         <i class="fa fa-mail-reply"></i> 回复
                     </a>
                     <% } %>

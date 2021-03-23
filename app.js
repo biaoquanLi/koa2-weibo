@@ -14,6 +14,7 @@ const {
 } = require('./config/db')
 const { SESSION_SECRET_KEY } = require('./config/secretKey')
 
+const squareAPIRouter = require('./routes/api/blog-square')
 const profileAPIRouter = require('./routes/api/blog-profile')
 const blogHomeViewRouter = require('./routes/view/blog')
 const blogApiRouter = require('./routes/api/blog')
@@ -68,6 +69,7 @@ app.use(session(
 ))
 
 // routes
+app.use(squareAPIRouter.routes(), squareAPIRouter.allowedMethods())
 app.use(profileAPIRouter.routes(), profileAPIRouter.allowedMethods())
 app.use(blogHomeViewRouter.routes(), blogHomeViewRouter.allowedMethods())
 app.use(blogApiRouter.routes(), blogApiRouter.allowedMethods())
