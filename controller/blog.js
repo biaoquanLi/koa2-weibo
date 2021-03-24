@@ -1,7 +1,7 @@
 
 
 
-const { getUserInfo, createUser, updateUser, updatePassword } = require('../services/user')
+
 const { SuccessModel, ErrorModel } = require('../model/resModel')
 const { create } = require('../services/blog')
 /**

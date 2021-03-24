@@ -1,4 +1,5 @@
 const { getBlogListByUser } = require('../services/blog')
+const { addFollow, deleteFollow } = require('../services/user-relation')
 const { SuccessModel, ErrorModel } = require('../model/resModel')
 const PAGE_SIZE = 2
 /**
@@ -22,7 +23,32 @@ async function getProfileBlogList(userName, pageIndex = 1) {
     })
 }
 
+async function follow(userId, followId) {
+    try {
+        await addFollow(userId, followId)
+        return new SuccessModel()
+    } catch (error) {
+        return new ErrorModel({
+            code: 10011,
+            message: '添加关注失败'
+        })
+    }
+}
+async function unFollow(userId, followId) {
+    try {
+        await deleteFollow(userId, followId)
+        return new SuccessModel()
+    } catch (error) {
+        return new ErrorModel({
+            code: 10012,
+            message: '取消关注失败'
+        })
+    }
+}
+
 
 module.exports = {
-    getProfileBlogList
+    getProfileBlogList,
+    follow,
+    unFollow
 }

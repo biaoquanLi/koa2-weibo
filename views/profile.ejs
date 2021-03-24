@@ -29,12 +29,17 @@
             <div class="col-4">
                 <!-- 个人信息 -->
                 <div class="right-item">
+                    <div class="right-item">
+                        <%- include('widgets/user-info', { userInfo: userData.userInfo, isMe:
+                            userData.isMe,amIFollowed:userData.amIFollowed });%>
+                    </div>
                 </div>
 
                 <!-- 粉丝 -->
-
-                <!-- 关注 -->
-
+                <%- include('widgets/fans', { count: userData.fansCount, userList: userData.fansList })%>
+                    <!-- 关注 -->
+                    <%- include('widgets/followers', { count: userData.followersCount, userList: userData.followersList
+                        })%>
             </div> <!-- 右侧结束 -->
         </div>
     </div>

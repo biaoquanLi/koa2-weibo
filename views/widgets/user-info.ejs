@@ -1,5 +1,6 @@
 <div class="user-info clear-fix">
-    <img src="<%= userInfo.picture%>" class="header-img float-left" />
+    <img src="<%= userInfo.picture||'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2694643916,1778468996&fm=11&gp=0.jpg'%>"
+        class="header-img float-left" />
     <h4 class="user-name">
         <%= userInfo.nickName%>
     </h4>
