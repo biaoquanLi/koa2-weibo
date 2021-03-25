@@ -33,7 +33,7 @@ async function register({ userName, password, gender, nickName }) {
             return new SuccessModel()
         } catch (error) {
             return new ErrorModel({
-                errno: 10002,
+                code: 10002,
                 message: '注册失败，请重试'
             })
         }
@@ -71,7 +71,7 @@ async function changeInfo({ ctx, nickName, city, picture }) {
         ctx.session.userInfo = { ...userInfo, nickName, city, picture }
         return new SuccessModel()
     } else {
-        return ErrorModel({
+        return new ErrorModel({
             code: 10008,
             message: '修改基本信息失败'
         })

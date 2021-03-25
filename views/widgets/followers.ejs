@@ -6,7 +6,7 @@
     <div class="user-list clear-fix">
         <% userList.forEach(user=> { %>
             <a href="/profile/<%= user.userName%>" class="user-item float-left">
-                <img src="<%= user.picture%>" />
+                <img src="<%= user.picture||'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2694643916,1778468996&fm=11&gp=0.jpg'%>" />
                 <span>
                     <%= user.nickName%>
                 </span>
