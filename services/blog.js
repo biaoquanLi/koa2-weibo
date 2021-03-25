@@ -24,9 +24,7 @@ const getBlogListByUser = async ({ userName, pageIndex = 1, pageSize = 5 }) => {
         sqlList += `and users.userName='${userName}' `
         sqlCount += `and users.userName='${userName}'`
     }
-    sqlList += `limit ${(pageIndex - 1) * pageSize},${pageSize}`
-    console.log('sqlList', sqlList)
-    console.log('sqlCount', sqlCount)
+    sqlList += `ORDER BY blogs.createTime desc limit ${(pageIndex - 1) * pageSize},${pageSize}`
     const res = await exec(sqlList)
     const count = await exec(sqlCount)
     return {
@@ -36,5 +34,17 @@ const getBlogListByUser = async ({ userName, pageIndex = 1, pageSize = 5 }) => {
 }
 
 
+const getFollowersBlogList = async ({ userId, pageIndex = 1, pageSize = 5 }) => {
+    let sqlList = `SELECT * FROM userFollow JOIN blogs on userFollow.followId=blogs.userId JOIN users ON userFollow.followId=users.id WHERE userFollow.userId=${userId} ORDER BY blogs.createTime desc limit ${(pageIndex - 1) * pageSize},${pageSize}`
+    let sqlCount = `SELECT count(*) FROM userFollow JOIN blogs on userFollow.followId=blogs.userId JOIN users ON userFollow.followId=users.id WHERE userFollow.userId=${userId}`
 
-module.exports = { create, getBlogListByUser }
+    const res = await exec(sqlList)
+    const count = await exec(sqlCount)
+    return {
+        count: count[0]['count(*)'],
+        blogList: JSON.parse(JSON.stringify(res))
+    }
+}
+
+
+module.exports = { create, getBlogListByUser, getFollowersBlogList }

@@ -31,7 +31,7 @@ const createUser = async ({ userName, password, gender = 3, nickName }) => {
         password = escape(password)
     }
     let sql = `insert into users (userName,password,gender,nickName,createTime) values ('${userName}',${password},${gender},'${nickName}',now())`
-    console.log('sql',sql)
+
     const res = await exec(sql)
     return {
         id: res.insertId
@@ -41,7 +41,7 @@ const createUser = async ({ userName, password, gender = 3, nickName }) => {
 const updateUser = async (ctx, { nickName, city, picture }) => {
     let { userName, password } = ctx.session.userInfo
     let sql = `update users set nickName='${nickName}',city='${city}',picture='${picture}' where userName='${userName}' and password='${password}'`
-    console.log('111',sql)
+
     const res = await exec(sql)
     return {
         code: 0,
