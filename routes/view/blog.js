@@ -63,9 +63,9 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
     const resultFans = await getFans(userInfo.id)
     const { fansList, fansCount } = resultFans.data
 
-
+    console.log(1111,fansList)
     const amIFollowed = fansList.some(item => {
-        return item.userId = ctx.session.userInfo.id
+        return item.userName = ctx.session.userInfo.userName
     })
 
     //获取关注人

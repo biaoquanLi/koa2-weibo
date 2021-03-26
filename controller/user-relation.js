@@ -23,5 +23,6 @@ async function followList(userId) {
 
 module.exports = {
     getFans,
+    followList,
     followList
 }

@@ -1,6 +1,6 @@
 const { exec } = require('../db/mysql')
 const xss = require('xss')
-const { genPassword } = require('../utils/crypto')
+const {formatBlog}=require('../utils/format')
 
 /**
  * 根据用户获取微博列表
@@ -27,22 +27,26 @@ const getBlogListByUser = async ({ userName, pageIndex = 1, pageSize = 5 }) => {
     sqlList += `ORDER BY blogs.createTime desc limit ${(pageIndex - 1) * pageSize},${pageSize}`
     const res = await exec(sqlList)
     const count = await exec(sqlCount)
+    let blogList = JSON.parse(JSON.stringify(res))
+    blogList = formatBlog(blogList)
     return {
         count: count[0]['count(*)'],
-        blogList: JSON.parse(JSON.stringify(res))
+        blogList
     }
 }
 
 
 const getFollowersBlogList = async ({ userId, pageIndex = 1, pageSize = 5 }) => {
-    let sqlList = `SELECT * FROM userFollow JOIN blogs on userFollow.followId=blogs.userId JOIN users ON userFollow.followId=users.id WHERE userFollow.userId=${userId} ORDER BY blogs.createTime desc limit ${(pageIndex - 1) * pageSize},${pageSize}`
-    let sqlCount = `SELECT count(*) FROM userFollow JOIN blogs on userFollow.followId=blogs.userId JOIN users ON userFollow.followId=users.id WHERE userFollow.userId=${userId}`
+    let sqlList = `SELECT * FROM userFollow JOIN blogs on userFollow.followId=blogs.userId JOIN users ON userFollow.followId=users.id ORDER BY blogs.createTime desc limit ${(pageIndex - 1) * pageSize},${pageSize}`
+    let sqlCount = `SELECT count(*) FROM userFollow JOIN blogs on userFollow.followId=blogs.userId JOIN users ON userFollow.followId=users.id`
 
     const res = await exec(sqlList)
     const count = await exec(sqlCount)
+    let blogList = JSON.parse(JSON.stringify(res))
+    blogList = formatBlog(blogList)
     return {
         count: count[0]['count(*)'],
-        blogList: JSON.parse(JSON.stringify(res))
+        blogList
     }
 }
 
